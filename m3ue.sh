@@ -144,7 +144,7 @@ while IFS= read -r line; do
                 if [ $force == true ]; then
                     path=$target/$playlist/
                     echo -e "\r\033[K\033[1m$filename\033[0m"
-                    echo -e "\t$file"
+                    echo -e " \033[33m↳  $file\033[0m"
                     echo -ne "Processing $filename"
                 fi
             else
