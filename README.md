@@ -9,6 +9,8 @@ Requires installation of `exiftool`.
 
 [VOX Music Player](https://vox.rocks/) for Mac users.
 
+[Winamp Classic](https://www.winamp.com/downloads/) 🤭 for Windows users. 
+
 ### ID3 software
 
 [Squeed](https://krizzli.xyz/squeed) for Mac users. Alternatively [Tagr 5](https://apps.apple.com/us/app/tagr-5/id1450308734).
