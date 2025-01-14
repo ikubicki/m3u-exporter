@@ -5,16 +5,21 @@ if [ $? -gt 0 ]; then
     exit 1
 fi
 set -e
-if [[ "$@" == *"--help"* ]]; then
+if [[ "$@" == *"--help"* || "$1" == "" ]]; then
+    echo
     echo M3U exporter by Irek Kubicki
     echo
-    echo Use ./m3ue.sh [path to M3U file] [path to destination] [flags]
+    echo -e "Use \033[1mm3ue [path to M3U file] [path to destination] [flags]\033[0m"
     echo
     echo Flags:
-    echo --skip - Skips files without ID3 tags.
-    echo --force - Forces file copying using a filename.
-    echo --dry - Dry run. No files will be copied.
-    echo --noverify - Skips verificiation.
+    echo -e "\033[1m--skip\033[0m Skips files without ID3 tags."
+    echo -e "\033[1m--force\033[0m Forces file copying using a filename."
+    echo -e "\033[1m--dry\033[0m Dry run. No files will be copied."
+    echo -e "\033[1m--noverify\033[0m Skips verificiation."
+    echo -e "\033[1m--link\033[0m Creates a symlink to the script in /usr/local/bin and exit."
+    echo -e "\033[1m--unlink\033[0m Removes the symlink from /usr/local/bin and exit."
+    echo -e "\033[1m--help\033[0m This message."
+    echo
     exit 0
 fi
 skip=false
@@ -34,6 +39,35 @@ if [[ "$@" == *"--dry"* ]]; then
     dry=true
     noverify=false
 fi
+if [[ "$@" == *"--link"* ]]; then
+    if [ -f /usr/local/bin/m3ue ]; then
+        echo "🖐️ Symlink already exits."
+        exit 1
+    fi
+    sudo ln -s $(pwd)/m3ue.sh /usr/local/bin/m3ue
+    if [ -f /usr/local/bin/m3ue ]; then
+        echo "✅ Symlink created"
+        exit 0
+    else
+        echo "⛔️ Could not create the link"
+        exit 2
+    fi
+fi
+if [[ "$@" == *"--unlink"* ]]; then
+    if [ ! -f /usr/local/bin/m3ue ]; then
+        echo "🖐️ Symlink already gone."
+        exit 1
+    fi
+    sudo rm -f /usr/local/bin/m3ue
+    if [ ! -f /usr/local/bin/m3ue ]; then
+        echo "✅ Symlink removed"
+        exit 0
+    else
+        echo "⛔️ Could not remove the link"
+        exit 2
+    fi
+fi
+
 if [ "$1" == "" ]; then
     echo Please provide a path to playlist file.
     exit 1

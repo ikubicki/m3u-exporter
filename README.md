@@ -16,14 +16,18 @@ Requires installation of `exiftool`.
 [Squeed](https://krizzli.xyz/squeed) for Mac users. Alternatively [Tagr 5](https://apps.apple.com/us/app/tagr-5/id1450308734).
 
 ## Usage
-Use `./m3ue.sh [path to M3U file] [path to destination] [flags]`.
+Use `m3ue [path to M3U file] [path to destination] [flags]`.
+
+If you don't have a symlink, you need to use `./m3ue.sh` command instead.
 
 The script will run the validation if all files have proper ID3 tags that will be used to generate filenames in destination directory.
 
 After validation complete it will copy all existing files to the destination.
 
 ### Flags:
- * `--skip` Skips files without ID3 tags
- * `--force` Forces file copying using a filename
- * `--dry` Dry run. No files will be copied
+ * `--skip` Skips files without ID3 tags.
+ * `--force` Forces file copying using a filename.
+ * `--dry` Dry run. No files will be copied.
  * `--noverify` Skips verificiation.
+ * `--link` Creates a symlink to the script in /usr/local/bin and exit.
+ * `--unlink` Removes the symlink from /usr/local/bin and exit.
