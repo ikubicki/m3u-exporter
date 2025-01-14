@@ -1,14 +1,10 @@
 #!/bin/bash
-
 type exiftool >/dev/null 2>&1
-
 if [ $? -gt 0 ]; then
     echo "Install exiftool first."
     exit 1
 fi
-
 set -e
-
 if [[ "$@" == *"--help"* ]]; then
     echo M3U exporter by Irek Kubicki
     echo
@@ -38,46 +34,35 @@ if [[ "$@" == *"--dry"* ]]; then
     dry=true
     noverify=false
 fi
-
 if [ "$1" == "" ]; then
     echo Please provide a path to playlist file.
     exit 1
 fi
-
 if [ "$2" == "" ]; then
     echo Please provide a path destination directory.
     exit 1
 fi
-
 if [ ! -f $1 ]; then
     echo $1 is not a readable playlist file
     exit 1
 fi
-
 playlist=$(basename $1)
 ext=${playlist##*.}
 if [ $ext != "m3u" ]; then
     echo $1 is not a m3u file
     exit 1
 fi
-
 playlist=$(basename $1 .m3u)
-
 if [ ! -d $2 ]; then
     echo $2 is not a writeable target directory
     exit 2
 fi
-
-
 target=$2
-
 if [[ -d $target/$playlist && $force == false ]]; then
     echo $tagret/playlist directory already exists!
     exit 3
 fi
-
 if [ $noverify == false ]; then
-
     echo Verifying playlist...
     notags=0
     missing=0
@@ -106,11 +91,9 @@ if [ $noverify == false ]; then
         fi
     done < $1
     echo
-
     if [ $missing -gt 0 ]; then
         echo 🖐️ $missing files are missing. We will skip them.
     fi
-
     if [ $notags -gt 0 ]; then
         if [ $skip == true ]; then
             echo 🖐️ $notags files have no ID3 TAGS. We will skip that files.
@@ -121,12 +104,10 @@ if [ $noverify == false ]; then
             exit 10
         fi
     fi
-
     if [ $dry == true ]; then
         exit 0
     fi
 fi
-
 echo
 mkdir -p $target/$playlist
 while IFS= read -r line; do
@@ -159,6 +140,5 @@ while IFS= read -r line; do
         fi
     fi
 done < $1
-
 echo -ne "\r\033[KDone"
 echo
