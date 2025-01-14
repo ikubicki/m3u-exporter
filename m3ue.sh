@@ -1,4 +1,12 @@
 #!/bin/bash
+
+type exiftool >/dev/null 2>&1
+
+if [ $? -gt 0 ]; then
+    echo "Install exiftool first."
+    exit 1
+fi
+
 set -e
 
 if [[ "$@" == *"--help"* ]]; then
@@ -7,9 +15,9 @@ if [[ "$@" == *"--help"* ]]; then
     echo Use ./m3ue.sh [path to M3U file] [path to destination] [flags]
     echo
     echo Flags:
-    echo --skip - skips files without ID3 tags
-    echo --force - forces file copying using a filename
-    echo --dry - Dry run. No files will be copied
+    echo --skip - Skips files without ID3 tags.
+    echo --force - Forces file copying using a filename.
+    echo --dry - Dry run. No files will be copied.
     echo --noverify - Skips verificiation.
     exit 0
 fi
@@ -29,6 +37,16 @@ fi
 if [[ "$@" == *"--dry"* ]]; then
     dry=true
     noverify=false
+fi
+
+if [ "$1" == "" ]; then
+    echo Please provide a path to playlist file.
+    exit 1
+fi
+
+if [ "$2" == "" ]; then
+    echo Please provide a path destination directory.
+    exit 1
 fi
 
 if [ ! -f $1 ]; then

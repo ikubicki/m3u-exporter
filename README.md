@@ -1,6 +1,10 @@
 # m3u-exporter
 Bash tool to copy media files such as MP3s, linked in M3U (playlist) file to a given destination.
 
+## Prerequisites
+
+Requires installation of `exiftool`.
+
 ## Usage
 Use `./m3ue.sh [path to M3U file] [path to destination] [flags]`.
 
